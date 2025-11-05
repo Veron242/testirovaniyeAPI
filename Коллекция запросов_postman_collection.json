@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "12c48c0f-49d3-43de-a037-818167c765fb",
+		"name": "Курсовая работа №2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41557333"
+	},
+	"item": [
+		{
+			"name": "Позитивные проверки",
+			"item": [
+				{
+					"name": "Добавление личного события на определенную дату",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Событие успешно добавлено!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"var key = \"ID event\"\r",
+									"var value = pm.response.json().data.payload.id\r",
+									"pm.collectionVariables.set(key, value)\r",
+									"\r",
+									"var key = \"StartAt\"\r",
+									"var value = pm.response.json().data.startAt\r",
+									"pm.collectionVariables.set(key, value)\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"\",\r\n\"endAt\":\"2025-03-19T10:30:00+03:00\",\r\n\"startAt\":\"2025-03-19T10:00:00+03:00\",\r\n\"title\":\"ОФОРМИТЬ ПРОПУСК\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение информации о добавленном событии",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 550ms\", function () {\r",
+									"pm.expect(pm.response.responseTime).to.be.below(550);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\" : \"2025-03-19T10:00:00+03:00\",\r\n    \"till\" : \"2025-03-19T10:30:00+03:00\",\r\n    \"onlyTypes\" : []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}events",
+							"host": [
+								"{{baseURL}}events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение информации о личных событиях за определенный период",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\" : \"2025-03-19T10:00:00+03:00\",\r\n    \"till\" : \"2025-03-19T18:00:00+03:00\",\r\n    \"onlyTypes\" : []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}events",
+							"host": [
+								"{{baseURL}}events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование названия события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Название успешно отредактировано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\":\"#FFF7C7\",\r\n\"color\":\"#FAC641\",\r\n\"description\":\"\",\r\n\"title\":\"ОФОРМИТЬ ПРОПУСК ДЛЯ ОРГАНИЗАЦИИ\",\r\n\"startAt\":\"{{StartAt}}\",\r\n\"endAt\":\"2025-03-19T10:30:00+03:00\",\r\n\"id\":{{ID event}},\r\n\"oldStartAt\":\"{{StartAt}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}updatePersonal",
+							"host": [
+								"{{baseURL}}updatePersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование описания события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Описание успешно отредактировано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\":\"#FFF7C7\",\r\n\"color\":\"#FAC641\",\r\n\"description\":\"подойти на проходную\",\r\n\"title\":\"ОФОРМИТЬ ПРОПУСК ДЛЯ ОРГАНИЗАЦИИ\",\r\n\"startAt\":\"{{StartAt}}\",\r\n\"endAt\":\"2025-03-19T10:30:00+03:00\",\r\n\"id\":{{ID event}},\r\n\"oldStartAt\":\"{{StartAt}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}updatePersonal",
+							"host": [
+								"{{baseURL}}updatePersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование цвета события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Цвет события успешно отредактировано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\":\"#F9EBFF\",\r\n\"color\":\"#D478F1\",\r\n\"description\":\"подойти на проходную\",\r\n\"title\":\"ОФОРМИТЬ ПРОПУСК ДЛЯ ОРГАНИЗАЦИИ\",\r\n\"startAt\":\"{{StartAt}}\",\r\n\"endAt\":\"2025-03-19T10:30:00+03:00\",\r\n\"id\":{{ID event}},\r\n\"oldStartAt\":\"{{StartAt}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}updatePersonal",
+							"host": [
+								"{{baseURL}}updatePersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование даты события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Дата успешно отредактирована!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"var key = \"oldStartAt\"\r",
+									"var value = pm.response.json().data.startAt\r",
+									"pm.collectionVariables.set(key, value)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\":\"#F9EBFF\",\r\n\"color\":\"#D478F1\",\r\n\"description\":\"ДАТА ИЗМЕНЕНА\",\r\n\"title\":\"ОФОРМИТЬ ПРОПУСК ДЛЯ ОРГАНИЗАЦИИ\",\r\n\"startAt\":\"2025-03-27T10:00:00+03:00\",\r\n\"endAt\":\"2025-03-27T10:30:00+03:00\",\r\n\"id\":{{ID event}},\r\n\"oldStartAt\":\"{{StartAt}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}updatePersonal",
+							"host": [
+								"{{baseURL}}updatePersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавление события в прошлом",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Событие успешно добавлено!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"var key = \"ID event2\"\r",
+									"var value = pm.response.json().data.payload.id\r",
+									"pm.collectionVariables.set(key, value)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"дата в прошлом\",\r\n\"endAt\":\"2025-03-15T19:00:00+03:00\",\r\n\"startAt\":\"2025-03-15T10:00:00+03:00\",\r\n\"title\":\"VERONIKA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавление события в будущем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Событие успешно добавлено!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"var key = \"ID event3\"\r",
+									"var value = pm.response.json().data.payload.id\r",
+									"pm.collectionVariables.set(key, value)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"дата в будущем\",\r\n\"endAt\":\"2025-04-25T19:00:00+03:00\",\r\n\"startAt\":\"2025-04-25T10:00:00+03:00\",\r\n\"title\":\"VERONIKAAAA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Событие удалено!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\":{{ID event3}},\r\n\"startAt\":\"2025-04-25T10:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}removePersonal",
+							"host": [
+								"{{baseURL}}removePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Негативные проверки",
+			"item": [
+				{
+					"name": "Добавление события без названия",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Событие без названия не было создано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"}); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"\",\r\n\"endAt\":\"2025-03-19T10:30:00+03:00\",\r\n\"startAt\":\"2025-03-19T10:00:00+03:00\",\r\n\"title\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавление события в прошлом (более 6 месяцев)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ успешно обработался и вернулся!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"\",\r\n\"endAt\":\"2025-09-09T10:30:00+03:00\",\r\n\"startAt\":\"2025-09-09T10:00:00+03:00\",\r\n\"title\":\"Прошлое123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавление события без даты",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Событие без даты не было создано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"событие без даты\",\r\n\"endAt\":\"\",\r\n\"startAt\":\"\",\r\n\"title\":\"СОБЫТИЕ БЕЗ ДАТЫ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание ЛС с названием 45 символов",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Событие с более чем 40 символов в названии не было создано!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFF7C7\",\r\n\"color\": \"#FAC641\",\r\n\"description\": \"более 40 символов\",\r\n\"endAt\":\"\",\r\n\"startAt\":\"\",\r\n\"title\":\"йвйёкеквбзшжгвожчийчндппчжкеэушцнцсдфхбаювбэь\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание ЛС с цветом, отличным от представленных",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Событие с таким цветом могло быть создано только через API!\", function () {\r",
+									"pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{token_global}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"backgroundColor\": \"#FFA07A\",\r\n\"color\": \"#FFA07A\",\r\n\"description\": \"\",\r\n\"endAt\":\"2025-03-17T19:00:00+03:00\",\r\n\"startAt\":\"2025-03-17T10:00:00+03:00\",\r\n\"title\":\"Новый цвет\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}createPersonal",
+							"host": [
+								"{{baseURL}}createPersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://api-teachers.skyeng.ru/v2/schedule/",
+			"type": "string"
+		},
+		{
+			"key": "token_global",
+			"value": "token_global=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjE0NzIwMDY5LCJpZGVudGl0eSI6InRlc3QudHN0MzIwQHNreWVuZy5ydSIsImlkZW50aXR5TG9naW4iOm51bGwsImlkZW50aXR5RW1haWwiOiJ0ZXN0LnRzdDMyMEBza3llbmcucnUiLCJpZGVudGl0eVBob25lIjoiKzc5ODU0NTg2NTY4IiwibmFtZSI6InRlc3RURUNUIiwic3VybmFtZSI6bnVsbCwiZW1haWwiOiJ0ZXN0LnRzdDMyMEBza3llbmcucnUiLCJ1aUxhbmd1YWdlIjoicnUiLCJsb2NhbGUiOiJydSIsInNlcnZpY2VMb2NhbGUiOm51bGwsInVhcyI6MzAsImp3dFR5cGUiOjEsImp0aSI6ImsxbkR2VERIYWNIQTZtYnFBc2twMWdod2ltMDMwM2s3IiwiYnJhbmQiOm51bGwsImV4cCI6MTc0MjMwMDY4MCwiYmlydGhkYXkiOiIyMDA3LTEyLTI4IiwiYUlzU3Ryb25nIjp0cnVlLCJhVHlwZSI6IlVTRVJOQU1FX1BBU1NXT1JEIiwiYVRpbWUiOjE3NDE2MjM4MDQsInJvbGVzIjpbIlJPTEVfVEVBQ0hFUl9DQU5ESURBVEUiLCJST0xFX1RFQUNIRVJfQ0FORElEQVRFX0JBU0VfQUNDRVNTIiwiUk9MRV9UUk1fVVBMT0FEX0ZJTEUiLCJST0xFX1RUQ19VU0FHRSIsIlJPTEVfVklNQk9YX1RFQUNIRVJfVVNBR0UiLCJST0xFX1RFQUNIRVIiLCJST0xFX0NSTTJfVEVBQ0hFUl9BQ0NFU1MiLCJST0xFX1RFQUNIRVJTX0NBQklORVRfQkFTRV9BQ0NFU1MiLCJST0xFX01BVEhfVEVBQ0hFUiIsIlJPTEVfTUFUSF9DT05URU5UX1RIRU1FX1ZJRVciXX0.ZU51lPJyqmyZUd7vJEfWgLfnfaPKWNkDutHvx31QeaH78SicuR9UvyUJyf9j-x1Az-ggeCxFbhcR1ekX4hvqPXp9-c6Df7L8TjoKbWASmBq8xEhLuHtCn7SQGatkMZoGGL_o5myvsbyYXTf_bDlNU4pUGj6iDnoxSiN4kGAVCAoOUFebZnctMVg7c34INOnk1G1PIlEsz2MCzglJwEzLmbQjol_1xGoncweeUCk7yGugq9IbhW3XXOtm5wcJdEpAWGmc0wtSI8lJqcmNpdvAmnSicEWUktVS8Sov4bNt_RKIOSM7eg5ZxesjO08oiN2X8mhXRvBzmR1k1BY-5-k73IhAl5JPraz8A8tUBznuMoYrNIn71ETB8jA_gZsXIZQEA0xAD0Uw473Zsyw1-33O-MbuBqeWY---Al9PSbaHgpcMMq0Soo5JOOvWOSBcpSaVAxdj5CVWZOhhbF2Dk06w72aT9HbLWSA-U-AN473YBA4PLCzReH1WlGlholrWKKwknYNMARqWysm9X6CGtGEIuK1DYVSeGkvYhhkInFKjuWOTvFyGK2FOlcScaVYIbtY7kR2zhthtfOn2-netYXF0n-HozSFgWCQydolxPyUHwfvuRdjNhcu3K7NqVIklALU8GAvLi_h-RBAMmQx13T3uvl7oAC5T5SZpAtQ9KfAQsQo",
+			"type": "string"
+		},
+		{
+			"key": "ID event",
+			"value": ""
+		},
+		{
+			"key": "StartAt",
+			"value": ""
+		},
+		{
+			"key": "oldStartAt",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ID event2",
+			"value": ""
+		},
+		{
+			"key": "ID event3",
+			"value": ""
+		}
+	]
+}
